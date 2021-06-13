@@ -1,4 +1,6 @@
 /.metadata/
+/AxonServer-4.5.2/
+/dockerdata
 
 target/
 !.mvn/wrapper/maven-wrapper.jar
