@@ -1,21 +1,32 @@
 package com.spiegelberger.estore.ProductsService.command.interceptors;
 
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.function.BiFunction;
 
 import org.axonframework.commandhandling.CommandMessage;
 import org.axonframework.messaging.MessageDispatchInterceptor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.spiegelberger.estore.ProductsService.command.CreateProductCommand;
+import com.spiegelberger.estore.ProductsService.core.data.ProductLookupEntity;
+import com.spiegelberger.estore.ProductsService.core.data.ProductLookupRepository;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Component
 public class CreateProductCommandInterceptor implements 
-						MessageDispatchInterceptor<CommandMessage<?>>{
+						MessageDispatchInterceptor<CommandMessage<?>> {
+	
+	private final ProductLookupRepository productLookupRepository; 
+	
+	@Autowired
+	public CreateProductCommandInterceptor(ProductLookupRepository productLookupRepository) {
+		this.productLookupRepository = productLookupRepository;
+	}
+
+
 
 	@Override
 	public BiFunction<Integer, CommandMessage<?>, CommandMessage<?>> handle(
@@ -27,16 +38,20 @@ public class CreateProductCommandInterceptor implements
 			
 			if(CreateProductCommand.class.equals(command.getPayloadType())) {
 				
-				CreateProductCommand createCProductCommand = (CreateProductCommand)command.getPayload();
+				CreateProductCommand createProductCommand = (CreateProductCommand)command.getPayload();
 				
-				if(createCProductCommand.getPrice().compareTo(BigDecimal.ZERO)<=0) {
-					throw new IllegalArgumentException("Price cannot be less or equal to zero.");
+				// Check if the product already exists:
+				ProductLookupEntity productLookupEntity = productLookupRepository.findByProductIdOrTitle(
+							createProductCommand.getProductId(), createProductCommand.getTitle());
+					if(productLookupEntity != null) {
+						throw new IllegalArgumentException(
+										String.format("Product with productId %s or title %s already exists", 
+										createProductCommand.getProductId(), createProductCommand.getTitle())
+										);
+						}
+					
 				}
-				
-				if(createCProductCommand.getTitle()==null || createCProductCommand.getTitle().isBlank()) {
-					throw new IllegalArgumentException("Title cannot be empty");
-				}
-			}
+			
 			return command;
 		};
 	}

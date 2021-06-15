@@ -1,5 +1,6 @@
 package com.spiegelberger.estore.ProductsService.query;
 
+import org.axonframework.config.ProcessingGroup;
 import org.axonframework.eventhandling.EventHandler;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import com.spiegelberger.estore.ProductsService.core.data.ProductsRepository;
 import com.spiegelberger.estore.ProductsService.core.events.ProductCreatedEvent;
 
 @Component
+@ProcessingGroup("product-group")
 public class ProductEventsHandler {
 	
 	private ProductsRepository productsRepository;
