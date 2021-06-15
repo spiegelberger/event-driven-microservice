@@ -44,7 +44,7 @@ public class ProductsCommandController {
 		try {
 			returnValue = commandGateway.sendAndWait(createProductCommand);
 		} catch (Exception e) {
-			e.getLocalizedMessage();
+			returnValue = e.getLocalizedMessage();
 		}
 		
 		return returnValue;
