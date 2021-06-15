@@ -1,4 +1,4 @@
-package com.spiegelberger.estore.ProductsService.rest;
+package com.spiegelberger.estore.ProductsService.command.rest;
 
 import java.util.UUID;
 
@@ -18,14 +18,14 @@ import com.spiegelberger.estore.ProductsService.command.CreateProductCommand;
 
 @RestController
 @RequestMapping("/products")
-public class ProductsController {
+public class ProductsCommandController {
 
 	private final Environment env;
 	private final CommandGateway commandGateway;
 	
 	
 	@Autowired
-	public ProductsController(Environment env, CommandGateway commandGateway) {
+	public ProductsCommandController(Environment env, CommandGateway commandGateway) {
 		this.env = env;
 		this.commandGateway = commandGateway;
 	}
@@ -50,7 +50,7 @@ public class ProductsController {
 		
 		return returnValue;
 	}
-	
+	/*
 	@GetMapping
 	public String getProduct() {
 		
@@ -67,4 +67,5 @@ public class ProductsController {
 	public String deleteProduct() {
 		return "HTTP DELETE Handled";
 	}
+	*/
 }
