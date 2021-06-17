@@ -40,31 +40,20 @@ public class ProductsCommandController {
 		.productId(UUID.randomUUID().toString())
 		.build();
 		
+		String returnValue = commandGateway.sendAndWait(createProductCommand);
+		
+		// Instead of the try-catch block, Error Handling will be managed by the centralized error handling class:
+		/*
+		 
 		String returnValue = null;
 		try {
 			returnValue = commandGateway.sendAndWait(createProductCommand);
 		} catch (Exception e) {
 			returnValue = e.getLocalizedMessage();
 		}
+		*/
 		
 		return returnValue;
 	}
-	/*
-	@GetMapping
-	public String getProduct() {
-		
-		
-		return "HTTP GET Handled " + env.getProperty("local.server.port");
-	}
-	
-	@PutMapping
-	public String updateProduct() {
-		return "HTTP PUT Handled";
-	}
-	
-	@DeleteMapping
-	public String deleteProduct() {
-		return "HTTP DELETE Handled";
-	}
-	*/
+
 }

@@ -44,7 +44,7 @@ public class CreateProductCommandInterceptor implements
 				ProductLookupEntity productLookupEntity = productLookupRepository.findByProductIdOrTitle(
 							createProductCommand.getProductId(), createProductCommand.getTitle());
 					if(productLookupEntity != null) {
-						throw new IllegalArgumentException(
+						throw new IllegalStateException(
 										String.format("Product with productId %s or title %s already exists", 
 										createProductCommand.getProductId(), createProductCommand.getTitle())
 										);

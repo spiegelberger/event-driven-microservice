@@ -42,6 +42,11 @@ public class ProductAggregate {
 		
 		AggregateLifecycle.apply(productCreatedEvent);
 		
+		//Transaction will be rolled back:
+		
+//		if(true) {
+//			throw new Exception("An error took place in the CreateProductCommand @CommandHandler method");
+//		}
 	}
 	
 	@EventSourcingHandler
