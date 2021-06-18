@@ -10,6 +10,8 @@ import org.axonframework.spring.stereotype.Aggregate;
 import org.springframework.beans.BeanUtils;
 
 import com.spiegelberger.estore.ProductsService.core.events.ProductCreatedEvent;
+import com.spiegelberger.estore.core.commands.ReserveProductCommand;
+import com.spiegelberger.estore.core.events.ProductReservedEvent;
 
 @Aggregate
 public class ProductAggregate {
@@ -42,12 +44,24 @@ public class ProductAggregate {
 		
 		AggregateLifecycle.apply(productCreatedEvent);
 		
-		//Transaction will be rolled back:
-		
-//		if(true) {
-//			throw new Exception("An error took place in the CreateProductCommand @CommandHandler method");
-//		}
 	}
+	
+	@CommandHandler
+	public void handle(ReserveProductCommand reserveProductCommand) {
+		
+		if(quantity<reserveProductCommand.getQuantity()) {
+			throw new IllegalArgumentException("Insufficent number of items in stock");
+		}
+		ProductReservedEvent productReservedEvent = ProductReservedEvent.builder()
+				.orderId(reserveProductCommand.getOrderId())
+				.productId(reserveProductCommand.getProductId())
+				.quantity(reserveProductCommand.getQuantity())
+				.userId(reserveProductCommand.getUserId())
+				.build();
+		
+		AggregateLifecycle.apply(productReservedEvent);
+	}
+	
 	
 	@EventSourcingHandler
 	public void on(ProductCreatedEvent productCreatedEvent) {
@@ -56,5 +70,10 @@ public class ProductAggregate {
 		this.title=productCreatedEvent.getTitle();
 		this.price=productCreatedEvent.getPrice();
 		this.quantity=productCreatedEvent.getQuantity();
+	}
+	
+	@EventSourcingHandler
+	public void on(ProductReservedEvent productReservedEvent) {
+		this.quantity -= productReservedEvent.getQuantity();
 	}
 }

@@ -3,12 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.appsdeveloperblog.estore.OrdersService.command.commands;
+package com.spiegelberger.estore.OrdersService.command.commands;
 
-import com.appsdeveloperblog.estore.OrdersService.core.model.OrderStatus;
 import lombok.Builder;
 import lombok.Data;
 import org.axonframework.modelling.command.TargetAggregateIdentifier;
+
+import com.spiegelberger.estore.OrdersService.core.model.OrderStatus;
 
 @Builder
 @Data

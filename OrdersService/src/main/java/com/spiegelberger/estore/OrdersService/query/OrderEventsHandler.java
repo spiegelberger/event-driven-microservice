@@ -3,15 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.appsdeveloperblog.estore.OrdersService.query;
+package com.spiegelberger.estore.OrdersService.query;
 
-import com.appsdeveloperblog.estore.OrdersService.core.data.OrderEntity;
-import com.appsdeveloperblog.estore.OrdersService.core.data.OrdersRepository;
-import com.appsdeveloperblog.estore.OrdersService.core.events.OrderCreatedEvent;
 import org.axonframework.config.ProcessingGroup;
 import org.axonframework.eventhandling.EventHandler;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
+
+import com.spiegelberger.estore.OrdersService.core.data.OrderEntity;
+import com.spiegelberger.estore.OrdersService.core.data.OrdersRepository;
+import com.spiegelberger.estore.OrdersService.core.events.OrderCreatedEvent;
 
 @Component
 @ProcessingGroup("order-group")

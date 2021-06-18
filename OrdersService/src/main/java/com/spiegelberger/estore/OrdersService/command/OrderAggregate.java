@@ -3,17 +3,18 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.appsdeveloperblog.estore.OrdersService.command;
+package com.spiegelberger.estore.OrdersService.command;
 
-import com.appsdeveloperblog.estore.OrdersService.core.events.OrderCreatedEvent;
-import com.appsdeveloperblog.estore.OrdersService.core.model.OrderStatus;
-import com.appsdeveloperblog.estore.OrdersService.command.commands.CreateOrderCommand;
 import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.eventsourcing.EventSourcingHandler;
 import org.axonframework.modelling.command.AggregateIdentifier;
 import org.axonframework.modelling.command.AggregateLifecycle;
 import org.axonframework.spring.stereotype.Aggregate;
 import org.springframework.beans.BeanUtils;
+
+import com.spiegelberger.estore.OrdersService.command.commands.CreateOrderCommand;
+import com.spiegelberger.estore.OrdersService.core.events.OrderCreatedEvent;
+import com.spiegelberger.estore.OrdersService.core.model.OrderStatus;
 
 @Aggregate
 public class OrderAggregate {

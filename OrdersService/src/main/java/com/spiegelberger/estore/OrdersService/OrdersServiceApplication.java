@@ -1,4 +1,4 @@
-package com.appsdeveloperblog.estore.OrdersService;
+package com.spiegelberger.estore.OrdersService;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

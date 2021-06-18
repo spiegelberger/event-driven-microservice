@@ -10,7 +10,11 @@ import org.springframework.stereotype.Component;
 import com.spiegelberger.estore.ProductsService.core.data.ProductEntity;
 import com.spiegelberger.estore.ProductsService.core.data.ProductsRepository;
 import com.spiegelberger.estore.ProductsService.core.events.ProductCreatedEvent;
+import com.spiegelberger.estore.core.events.ProductReservedEvent;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Component
 @ProcessingGroup("product-group")
 public class ProductEventsHandler {
@@ -47,9 +51,25 @@ public class ProductEventsHandler {
 		
 		//Transaction will be rolled back:
 		
-		if(true) {
-			throw new Exception("Forcing exception in the Event Handler class");
-		}
+//		if(true) {
+//			throw new Exception("Forcing exception in the Event Handler class");
+//		}
 		
 	}
+	
+	@EventHandler
+	public void on(ProductReservedEvent productReservedEvent) {
+		
+		ProductEntity productEntity = 
+				productsRepository.findByProductId(productReservedEvent.getProductId());
+		
+		productEntity.setQuantity(productEntity.getQuantity()-productReservedEvent.getQuantity());
+		
+		productsRepository.save(productEntity);
+		
+		log.info("productReservedEvent is called for productId: " + productReservedEvent.getProductId() + 
+				" and orderId: " + productReservedEvent.getOrderId());
+	}
+	
+	
 }

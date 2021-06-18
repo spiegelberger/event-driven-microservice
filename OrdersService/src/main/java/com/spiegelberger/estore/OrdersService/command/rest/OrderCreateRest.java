@@ -1,4 +1,4 @@
-package com.appsdeveloperblog.estore.OrdersService.command.rest;
+package com.spiegelberger.estore.OrdersService.command.rest;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;

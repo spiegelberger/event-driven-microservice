@@ -3,9 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.appsdeveloperblog.estore.OrdersService.core.events;
+package com.spiegelberger.estore.OrdersService.core.events;
 
-import com.appsdeveloperblog.estore.OrdersService.core.model.OrderStatus;
+import com.spiegelberger.estore.OrdersService.core.model.OrderStatus;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

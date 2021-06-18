@@ -3,9 +3,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.appsdeveloperblog.estore.OrdersService.core.data;
+package com.spiegelberger.estore.OrdersService.core.data;
 
-import com.appsdeveloperblog.estore.OrdersService.core.model.OrderStatus;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,6 +12,9 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import com.spiegelberger.estore.OrdersService.core.model.OrderStatus;
+
 import lombok.Data;
 
 @Data

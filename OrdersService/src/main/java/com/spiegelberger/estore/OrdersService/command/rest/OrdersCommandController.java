@@ -3,10 +3,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.appsdeveloperblog.estore.OrdersService.command.rest;
+package com.spiegelberger.estore.OrdersService.command.rest;
 
-import com.appsdeveloperblog.estore.OrdersService.core.model.OrderStatus;
-import com.appsdeveloperblog.estore.OrdersService.command.commands.CreateOrderCommand;
 import java.util.UUID;
 import javax.validation.Valid;
 import org.axonframework.commandhandling.gateway.CommandGateway;
@@ -15,6 +13,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.spiegelberger.estore.OrdersService.command.commands.CreateOrderCommand;
+import com.spiegelberger.estore.OrdersService.core.model.OrderStatus;
 
 @RestController
 @RequestMapping("/orders")
