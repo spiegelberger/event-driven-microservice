@@ -52,6 +52,7 @@ public class ProductAggregate {
 		if(quantity<reserveProductCommand.getQuantity()) {
 			throw new IllegalArgumentException("Insufficent number of items in stock");
 		}
+		
 		ProductReservedEvent productReservedEvent = ProductReservedEvent.builder()
 				.orderId(reserveProductCommand.getOrderId())
 				.productId(reserveProductCommand.getProductId())
@@ -67,8 +68,8 @@ public class ProductAggregate {
 	public void on(ProductCreatedEvent productCreatedEvent) {
 		
 		this.productId=productCreatedEvent.getProductId();
-		this.title=productCreatedEvent.getTitle();
 		this.price=productCreatedEvent.getPrice();
+		this.title=productCreatedEvent.getTitle();
 		this.quantity=productCreatedEvent.getQuantity();
 	}
 	

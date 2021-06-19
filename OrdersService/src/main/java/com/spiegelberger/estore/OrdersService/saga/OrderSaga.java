@@ -35,7 +35,7 @@ public class OrderSaga {
 	public void handle(OrderCreatedEvent orderCreatedEvent) {
 		
 		ReserveProductCommand reserveProductCommand = ReserveProductCommand.builder()
-				.orderId(orderCreatedEvent.getAddressId())
+				.orderId(orderCreatedEvent.getOrderId())
 				.productId(orderCreatedEvent.getProductId())
 				.quantity(orderCreatedEvent.getQuantity())
 				.userId(orderCreatedEvent.getUserId())
@@ -47,7 +47,7 @@ public class OrderSaga {
 		commandGateway.send(reserveProductCommand, new CommandCallback<ReserveProductCommand, Object>(){
 			
 			public void onResult(CommandMessage<? extends ReserveProductCommand> commandMessage,
-					CommandResultMessage<?extends Object> commandResultMessage){
+					CommandResultMessage<? extends Object> commandResultMessage){
 					
 				if(commandResultMessage.isExceptional()) {
 					// Start a compensating transaction					
