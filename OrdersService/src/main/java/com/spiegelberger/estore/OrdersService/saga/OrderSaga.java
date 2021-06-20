@@ -9,15 +9,20 @@ import org.axonframework.commandhandling.CommandMessage;
 import org.axonframework.commandhandling.CommandResultMessage;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.axonframework.messaging.responsetypes.ResponseTypes;
+import org.axonframework.modelling.saga.EndSaga;
 import org.axonframework.modelling.saga.SagaEventHandler;
+import org.axonframework.modelling.saga.SagaLifecycle;
 import org.axonframework.modelling.saga.StartSaga;
 import org.axonframework.queryhandling.QueryGateway;
 import org.axonframework.spring.stereotype.Saga;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.spiegelberger.estore.OrdersService.command.commands.ApproveOrderCommand;
+import com.spiegelberger.estore.OrdersService.core.events.OrderApprovedEvent;
 import com.spiegelberger.estore.OrdersService.core.events.OrderCreatedEvent;
 import com.spiegelberger.estore.core.commands.ProcessPaymentCommand;
 import com.spiegelberger.estore.core.commands.ReserveProductCommand;
+import com.spiegelberger.estore.core.events.PaymentProcessedEvent;
 import com.spiegelberger.estore.core.events.ProductReservedEvent;
 import com.spiegelberger.estore.core.model.User;
 import com.spiegelberger.estore.core.query.FetchUserPaymentDetailsQuery;
@@ -112,5 +117,24 @@ public class OrderSaga {
 		}
 	}
 		
+	@SagaEventHandler(associationProperty = "orderId")
+	public void handle(PaymentProcessedEvent paymentProcessedEvent) {
+		
+		// Send an ApproveOrderCommand
+		ApproveOrderCommand approvedOrderCommand = 
+				new ApproveOrderCommand(paymentProcessedEvent.getOrderId()); 
+		
+		commandGateway.send(approvedOrderCommand);
+	}
+	
+	@EndSaga
+	@SagaEventHandler(associationProperty = "orderId")
+	public void handle(OrderApprovedEvent orderApprovedEvent) {
+		
+		log.info("Order is approved. Order Saga is complete for orderId: " + 
+							orderApprovedEvent.getOrderId() );
+	// This can be also used instead of @EndSaga:
+	//	SagaLifecycle.end();
+	}
 	
 }

@@ -12,7 +12,9 @@ import org.axonframework.modelling.command.AggregateLifecycle;
 import org.axonframework.spring.stereotype.Aggregate;
 import org.springframework.beans.BeanUtils;
 
+import com.spiegelberger.estore.OrdersService.command.commands.ApproveOrderCommand;
 import com.spiegelberger.estore.OrdersService.command.commands.CreateOrderCommand;
+import com.spiegelberger.estore.OrdersService.core.events.OrderApprovedEvent;
 import com.spiegelberger.estore.OrdersService.core.events.OrderCreatedEvent;
 import com.spiegelberger.estore.OrdersService.core.model.OrderStatus;
 
@@ -48,5 +50,22 @@ public class OrderAggregate {
         this.orderStatus = orderCreatedEvent.getOrderStatus();
     }
  
-
+    @CommandHandler
+    public void handle(ApproveOrderCommand approveOrderCommand) {
+    	
+    	//Create and publish the OrderApprovedEvent
+    	
+    	OrderApprovedEvent orderApprovedEvent = new OrderApprovedEvent(
+    			approveOrderCommand.getOrderId() );
+    	
+    	AggregateLifecycle.apply(orderApprovedEvent);
+    	
+    }
+    
+    @EventSourcingHandler
+    protected void on(OrderApprovedEvent orderApprovedEvent) {
+    	
+    	this.orderStatus = orderApprovedEvent.getOrderStatus();
+    	
+    }
 }
