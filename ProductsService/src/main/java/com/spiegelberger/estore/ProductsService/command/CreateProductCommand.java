@@ -11,9 +11,11 @@ import lombok.Data;
 @Data
 public class CreateProductCommand {
 
+	// This field will associate the command and the aggregate:
 	@TargetAggregateIdentifier
 	private final String productId;
-	private final String title;
+	
+	private final String title;	
 	private final BigDecimal price;
 	private final Integer quantity;
 }

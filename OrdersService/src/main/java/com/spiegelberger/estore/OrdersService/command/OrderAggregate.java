@@ -14,8 +14,10 @@ import org.springframework.beans.BeanUtils;
 
 import com.spiegelberger.estore.OrdersService.command.commands.ApproveOrderCommand;
 import com.spiegelberger.estore.OrdersService.command.commands.CreateOrderCommand;
+import com.spiegelberger.estore.OrdersService.command.commands.RejectOrderCommand;
 import com.spiegelberger.estore.OrdersService.core.events.OrderApprovedEvent;
 import com.spiegelberger.estore.OrdersService.core.events.OrderCreatedEvent;
+import com.spiegelberger.estore.OrdersService.core.events.OrderRejectedEvent;
 import com.spiegelberger.estore.OrdersService.core.model.OrderStatus;
 
 @Aggregate
@@ -68,4 +70,22 @@ public class OrderAggregate {
     	this.orderStatus = orderApprovedEvent.getOrderStatus();
     	
     }
+    
+    @CommandHandler
+    public void handle(RejectOrderCommand rejectOrderCommand) {
+    	
+    	//Create and publish the OrderRejectedEvent
+    	
+    	OrderRejectedEvent orderRejectedEvent = new OrderRejectedEvent(
+    			rejectOrderCommand.getOrderId(), rejectOrderCommand.getReason());
+    	
+    	AggregateLifecycle.apply(orderRejectedEvent);
+    }
+    
+    @EventSourcingHandler
+    protected void on(OrderRejectedEvent orderRejectedEvent) {
+    	
+    	this.orderStatus = orderRejectedEvent.getOrderStatus();
+    }
+    
 }

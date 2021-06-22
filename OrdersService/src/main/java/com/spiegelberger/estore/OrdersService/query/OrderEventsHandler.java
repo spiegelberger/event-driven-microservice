@@ -14,6 +14,7 @@ import com.spiegelberger.estore.OrdersService.core.data.OrderEntity;
 import com.spiegelberger.estore.OrdersService.core.data.OrdersRepository;
 import com.spiegelberger.estore.OrdersService.core.events.OrderApprovedEvent;
 import com.spiegelberger.estore.OrdersService.core.events.OrderCreatedEvent;
+import com.spiegelberger.estore.OrdersService.core.events.OrderRejectedEvent;
 
 @Component
 @ProcessingGroup("order-group")
@@ -45,6 +46,18 @@ public class OrderEventsHandler {
     	
     	ordersRepository.save(orderEntity);
     }
+    
+    
+    @EventHandler
+    public void on(OrderRejectedEvent orderRejectedEvent) {
+    	
+    	OrderEntity orderEntity = ordersRepository.findByOrderId(orderRejectedEvent.getOrderId());
+    	
+    	orderEntity.setOrderStatus(orderRejectedEvent.getOrderStatus()); 
+    	
+    	ordersRepository.save(orderEntity);
+    }
+    
     
     
 }

@@ -40,6 +40,7 @@ public class ProductsCommandController {
 		.productId(UUID.randomUUID().toString())
 		.build();
 		
+		// Send the command to the CommandBus
 		String returnValue = commandGateway.sendAndWait(createProductCommand);
 		
 		// Instead of the try-catch block, Error Handling will be managed by the centralized error handling class:
