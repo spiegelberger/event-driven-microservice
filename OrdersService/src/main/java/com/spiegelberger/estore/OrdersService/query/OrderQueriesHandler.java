@@ -1,0 +1,29 @@
+package com.spiegelberger.estore.OrdersService.query;
+
+import org.axonframework.queryhandling.QueryHandler;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import com.spiegelberger.estore.OrdersService.core.data.OrderEntity;
+import com.spiegelberger.estore.OrdersService.core.data.OrdersRepository;
+import com.spiegelberger.estore.OrdersService.core.model.OrderSummary;
+
+
+@Component
+public class OrderQueriesHandler {
+
+	
+	OrdersRepository ordersRepository;
+		
+	@Autowired
+	public OrderQueriesHandler(OrdersRepository ordersRepository) {
+		this.ordersRepository = ordersRepository;
+	}
+
+	
+	@QueryHandler
+	public OrderSummary findOrder(FindOrderQuery findOrderQuery) {
+		OrderEntity orderEntity = ordersRepository.findByOrderId(findOrderQuery.getOrderId());
+		return new OrderSummary(orderEntity.getOrderId(), orderEntity.getOrderStatus(), "");
+	}
+}
