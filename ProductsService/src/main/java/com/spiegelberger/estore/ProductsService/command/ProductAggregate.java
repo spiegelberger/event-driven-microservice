@@ -17,7 +17,7 @@ import com.spiegelberger.estore.core.events.ProductReservedEvent;
 
 // The domain object. Holds the current state of the object
 
-@Aggregate
+@Aggregate(snapshotTriggerDefinition ="productSnapshotTriggerDefinition")
 public class ProductAggregate {
 	
 	// This field will associate the command and the aggregate
