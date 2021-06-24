@@ -2,6 +2,7 @@ package com.spiegelberger.estore.ProductsService.command;
 
 import org.axonframework.config.ProcessingGroup;
 import org.axonframework.eventhandling.EventHandler;
+import org.axonframework.eventhandling.ResetHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -20,8 +21,6 @@ public class ProductLookupEventsHandler {
 		this.productLookupRepository = productLookupRepository;
 	}
 
-
-
 	@EventHandler
 	public void on(ProductCreatedEvent event) {
 		
@@ -29,6 +28,12 @@ public class ProductLookupEventsHandler {
 					event.getProductId(), event.getTitle());
 		
 		productLookupRepository.save(productLookupEntity);
+	}
+	
+	@ResetHandler
+	public void reset() {
+		
+		productLookupRepository.deleteAll();
 	}
 
 }
